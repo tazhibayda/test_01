@@ -1,0 +1,122 @@
+Lab 5:
+1) 
+SELECT Pname, Numphds 
+FROM PROF, DEPT 
+WHERE DEPT.Dname = PROF.Dname AND  Numphds < 50 
+ 
+ 
+2) 
+SELECT STUDENT.Sname 
+FROM STUDENT 
+WHERE STUDENT.GPA = (select min(STUDENT.GPA) from STUDENT) 
+ 
+3) 
+Select STUDENT.Sname, MAJOR.Dname, COURSE.Cname 
+FROM STUDENT, MAJOR, COURSE 
+WHERE STUDENT.Sid = MAJOR.Sid 
+              AND COURSE.Dname = MAJOR.Dname 
+              AND COURSE.Cname = ‘Database Management Systems1’ 
+ 
+4) 
+Select STUDENT.Sid, STUDENT.Sname, STUDENT.GPA, COURSE.Cname 
+FROM STUDENT, COURSE, ENROLL 
+WHERE STUDENT.Sid = ENROLL.Sid 
+              AND COURSE.Dname = ENROLL.Dname 
+              AND COURSE.Cno = ENROLL.Cno 
+              AND COURSE.Dname LIKE ‘%Civil Engineering%’ 
+ 
+5) 
+(SELECT WordAppears.ArticleID 
+FROM WordAppears, Wordls 
+WHERE WordAppears.WordID = Wordls.WordID 
+               AND Wordls.WordText LIKE ‘%politician%’) 
+INTERSECT 
+(SELECT WordAppears.ArticleID 
+FROM WordAppears, Wordls 
+WHERE WordAppears.WordID = Wordls.WordID 
+               AND Wordls.WordText LIKE ‘%corruption%’) 
+ 
+6) 
+SELECT Count(CITATION.CitedArticleID) 
+FROM CITATION 
+GROUP BY CITATION.ArticleID
+
+
+--------------------------------------------------------------
+Lab 6
+create or replace trigger beertrig1  
+after insert on sells 
+for each row  
+declare pragma autonomous_transaction; 
+begin  
+if: new.bar = 'Lotus' then insert into sells values('Cheetah',:new.beer,:new.price -1); 
+commit; 
+end if; 
+end;
+
+create or replace trigger beertrig2 
+after update   on sells 
+for each row 
+declare pragma autonomous_transaction; 
+begin if: new.bar = 'Lotus' and :old.beer = :new.beer  then  
+update sells set price = :new.price / 2 where bar = 'Cheetah' and beer = :new.beer; 
+commit; 
+end if; 
+end;
+
+create or replace trigger "SELLS_T1"
+AFTER
+DELETE  on "SELLS"
+for each row
+declare
+pragma autonomous_transaction;
+begin
+if :old.bar like 'Lotus'  then
+    update sells set price = (SELECT AVG(price) FROM SELLS where bar = 'Lotus') where bar like 'Cheetah';
+    commit;
+end if;
+end;
+
+
+
+
+--------------------------------------------------------------
+Lab 7
+1)
+a)
+i) studentID -> name,office,email,officePhone;
+ii) officePhone -> office
+iii) courseID -> name
+iv) name -> description
+b)courseID -> description,name,location
+studentID,officePhone -> office,name
+non-trivial FD это когда не является сабсетом и их атрибуты сейм элементы(атрибутов) перекасаться  будет тогда non-trivial
+
+2)R(A,B,C,D,E)
+A → C, C → B, B → D, D → E, E → A.
+a)S(A, B, C)
+A -> (A,B,C,D,E)
+B -> (A,B,C,D,E)
+C -> (A,B,C,D,E)
+AB -> (A,B,C,D,E)
+BC -> (A,B,C,D,E)
+AC -> (A,B,C,D,E)
+T = {A->C, C->B, A->B, C->A,B->A,B->C,AB -> C,BC->A,AC-> B}
+b) T = {A->C, C->B , A->B)
+3.R(A, B, C, D, E)
+AB → C, CD → E, C → A, C → D, D → B.
+a)C = {C,A,D,B,E} - key C- key
+b)C = {C,A,D,B,E}
+D = {D,B}
+c)R1={D,B}
+D -> {D,B}
+B -> {B}
+T ={D->B}
+4.Courses(C, T, H, R, S, G)
+C → T, HR → C, HT → R, HS → R, and CS → G.
+a.key = HS
+b.C → T, HR → C, HT → R, HS → R, and CS → G.
+HT-> R removed  = {C,H,R,T,S,G}
+c.R1(HRC) ,R2(HSR),R3(CSG),R4(CT)
+select * from r1,r2,r3,r4
+where r1.h = r2.h and r1.c = r3.c and r1.c = r4.c and r3.c = r4.c and r2.s = r3.s;
